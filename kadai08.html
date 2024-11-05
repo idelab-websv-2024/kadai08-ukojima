@@ -1,4 +1,7 @@
-<!DOCTYPE="utf-8">
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+
+<meta charset="utf-8">
   <head>
     <title></title>
 
@@ -15,21 +18,22 @@
             oneline.innerHTML += r["artistName"];
             oneline.innerHTML += "<hr />";
             output.appendChild(oneline);
+
+            var gazo = document.createElement('img');
+            gazo.src= r.artworkUrl100;
+            output.appendChild(gazo);
+    
         }
     }
 
     function startRequest() {
         var statusField = document.getElementById('status');
-        var s = '手嶌';
-        alert(s);
+        var s = document.getElementById('searchName').value;
         var searchString = encodeURIComponent(s);
-        alert(searchString);
-
-        var iTunesURI = 'https://itunes.apple.com/search?term='+searchString+'&callback=searchCallback';
+        var iTunesURI = 'https://itunes.apple.com/search?lang=ja_jp&country=jp&term='+searchString+'&callback=searchCallback';
         document.getElementById('caller').setAttribute('src', iTunesURI);
-
-        statusField.innerHTML = '';
     }
+
     </script>
 
   </head>
@@ -38,6 +42,7 @@
 
 <div id='status'></div>
 <div id='outputArea'></div>
+<input type="'text" id="searchName">
 <input type='button' id='searchWord' value='検索' onclick="startRequest()"/>
 
 
