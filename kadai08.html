@@ -1,53 +1,48 @@
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
-
-<meta charset="utf-8">
-  <head>
+<head>
+    <meta charset="utf-8">
     <title></title>
-
     <script>
-    // https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/#searchexamples
+        function searchCallback(result) {
+            var output = document.getElementById('outputArea');
+            var results = result.results;
+            var table = document.createElement("table");
 
-    function searchCallback(result) {
-        output = document.getElementById('outputArea');
-        results = result.results;
-        for (var r of results) {
-            var oneline = document.createElement('div');
-            oneline.innerHTML = r["collectionName"];
-            oneline.innerHTML += "<br>";
-            oneline.innerHTML += r["artistName"];
-            oneline.innerHTML += "<hr />";
-            output.appendChild(oneline);
+            for (var r of results) {
+                var oneline = document.createElement("tr");
 
-            var gazo = document.createElement('img');
-            gazo.src= r.artworkUrl100;
-            output.appendChild(gazo);
-    
+                var trackName = document.createElement("td");
+                trackName.innerHTML = r.trackName;
+                oneline.appendChild(trackName);
+
+                var artistName = document.createElement("td");
+                artistName.innerHTML = r.artistName;
+                oneline.appendChild(artistName);
+
+                var gazo = document.createElement("img");
+                gazo.src = r.artworkUrl100;
+                oneline.appendChild(gazo);
+
+                table.appendChild(oneline);
+            }
+            output.appendChild(table);
         }
-    }
 
-    function startRequest() {
-        var statusField = document.getElementById('status');
-        var s = document.getElementById('searchName').value;
-        var searchString = encodeURIComponent(s);
-        var iTunesURI = 'https://itunes.apple.com/search?lang=ja_jp&country=jp&term='+searchString+'&callback=searchCallback';
-        document.getElementById('caller').setAttribute('src', iTunesURI);
-    }
-
+        function startRequest() {
+            var s = document.getElementById('searchName').value;
+            var searchString = encodeURIComponent(s);
+            var iTunesURI = 'https://itunes.apple.com/search?lang=ja_jp&country=jp&term=' + searchString + '&callback=searchCallback';
+            document.getElementById('caller').setAttribute('src', iTunesURI);
+        }
     </script>
+</head>
 
-  </head>
-  
-  <body>
-
-<div id='status'></div>
-<div id='outputArea'></div>
-<input type="'text" id="searchName">
-<input type='button' id='searchWord' value='検索' onclick="startRequest()"/>
-
-
-<script id='caller'></script>
-
-  </body>
+<body>
+    <div id="status"></div>
+    <div id="outputArea"></div>
+    <input type="text" id="searchName">
+    <input type="button" id="searchWord" value="検索" onclick="startRequest()">
+    <script id="caller"></script>
+</body>
 </html>
-
